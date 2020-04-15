@@ -13,14 +13,14 @@ export const asyncRouterMap = [
     children: [
       // dashboard
       {
-        path: '/dashboard',
+        path: 'dashboard',
         name: 'dashboard',
         redirect: '/dashboard/workplace',
         component: RouteView,
         meta: { title: '仪表盘', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
         children: [
           {
-            path: '/dashboard/analysis',
+            path: 'analysis/:pageNo([1-9]\\d*)?',
             name: 'Analysis',
             component: () => import('@/views/dashboard/Analysis'),
             meta: { title: '分析页', keepAlive: false, permission: [ 'dashboard' ] }
@@ -32,10 +32,16 @@ export const asyncRouterMap = [
             meta: { title: '监控页（外部）', target: '_blank' }
           },
           {
-            path: '/dashboard/workplace',
+            path: 'workplace',
             name: 'Workplace',
             component: () => import('@/views/dashboard/Workplace'),
             meta: { title: '工作台', keepAlive: true, permission: [ 'dashboard' ] }
+          },
+          {
+            path: 'test-work',
+            name: 'TestWork',
+            component: () => import('@/views/dashboard/TestWork'),
+            meta: { title: '测试功能', keepAlive: true, permission: [ 'dashboard' ] }
           }
         ]
       },
@@ -349,6 +355,11 @@ export const constantRouterMap = [
         path: 'register-result',
         name: 'registerResult',
         component: () => import(/* webpackChunkName: "user" */ '@/views/user/RegisterResult')
+      },
+      {
+        path: 'recover',
+        name: 'recover',
+        component: undefined
       }
     ]
   },

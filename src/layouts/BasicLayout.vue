@@ -66,18 +66,17 @@ import { mixin, mixinDevice } from '@/utils/mixin'
 import config from '@/config/defaultSettings'
 
 import RouteView from './RouteView'
-import MultiTab from '@/components/MultiTab'
 import SideMenu from '@/components/Menu/SideMenu'
 import GlobalHeader from '@/components/GlobalHeader'
 import GlobalFooter from '@/components/GlobalFooter'
 import SettingDrawer from '@/components/SettingDrawer'
+import { convertRoutes } from '@/utils/routeConvert'
 
 export default {
   name: 'BasicLayout',
   mixins: [mixin, mixinDevice],
   components: {
     RouteView,
-    MultiTab,
     SideMenu,
     GlobalHeader,
     GlobalFooter,
@@ -111,7 +110,8 @@ export default {
     }
   },
   created () {
-    this.menus = this.mainMenu.find(item => item.path === '/').children
+    const routes = convertRoutes(this.mainMenu.find(item => item.path === '/'))
+    this.menus = (routes && routes.children) || []
     this.collapsed = !this.sidebarOpened
   },
   mounted () {
@@ -142,9 +142,6 @@ export default {
       return left
     },
     menuSelect () {
-      if (!this.isDesktop()) {
-        this.collapsed = false
-      }
     },
     drawerClose () {
       this.collapsed = false
@@ -154,8 +151,6 @@ export default {
 </script>
 
 <style lang="less">
-@import url('../components/global.less');
-
 /*
  * The following styles are auto-applied to elements with
  * transition="page-transition" when their visibility is toggled
